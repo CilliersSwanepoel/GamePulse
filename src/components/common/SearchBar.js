@@ -1,20 +1,36 @@
-import React, {useState} from 'react';
+import React from 'react';
+import './SearchBar.css';
 
-function SearchBar({value, onChange, onSubmit, placeholder = "Search..."}) {
+function SearchBar({ value, onChange, onSubmit, placeholder = "Search..." }) {
 
-function handleSubmit(e) {
-    e.preventDefault();
-    onSubmit?.(value);
-}
+    function handleSubmit(e) {
+        e.preventDefault();
+        onSubmit?.(value);
+    }
 
-    return(
+    function handleIconClick(e) {
+        if (value) {
+            e.preventDefault();
+            onChange('');
+        }
+    }
 
-        <form className = "SearchBar-container" onSubmit={handleSubmit}>
-            <input 
-            className='SearchBar-input' 
-            value={value}
-            onChange={ (e) => onChange(e.target.value)}
-            placeholder={placeholder}
+    return (
+
+        <form className="SearchBar-container" onSubmit={handleSubmit}>
+            <button
+                type="submit"
+                className="SearchBar-icon"
+                aria-label={value ? "Clear search" : "Search"}
+                onClick={handleIconClick}
+            >
+                <span className="SearchBar-icon-glass" />
+            </button>
+            <input
+                className="SearchBar-input"
+                value={value}
+                onChange={(e) => onChange(e.target.value)}
+                placeholder={placeholder}
             />
         </form>
 

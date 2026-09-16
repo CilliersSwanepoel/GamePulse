@@ -9,7 +9,7 @@ body {
   /* explicit background + text color so the page doesn't fall back
      to the browser's own defaults (which can render as invisible
      black-on-black in dark mode when nothing here says otherwise) */
-  background-color: #15101b;
+  background-color: #2c1b53;
   color: #fffefe;
 }
 

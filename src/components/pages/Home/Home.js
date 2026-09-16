@@ -1,4 +1,5 @@
 import React, {useState} from 'react';
+import './Home.css';
 import SearchBar from '../../common/SearchBar';
 
 function Home() {
@@ -13,7 +14,9 @@ function Home() {
     return (
 
         <div className = 'Home'>
-            <SearchBar />
+            <div className='Home-search'>
+                <SearchBar/>
+            </div>
         </div>
 
     );

@@ -1,0 +1,90 @@
+
+.SearchBar-container {
+    --search-height: 44px;
+    --search-width-expanded: 260px;
+    --search-bg: #1c1c24;
+    --search-bg-focus: #2a2a35;
+    --search-fg: #ffffff;
+
+    display: inline-flex;
+    align-items: center;
+    height: var(--search-height);
+    width: var(--search-height); /* collapsed = just wide enough for the icon */
+    border-radius: calc(var(--search-height) / 2);
+    background-color: var(--search-bg);
+    color: var(--search-fg);
+    overflow: hidden; /* hides the input until we widen the box */
+    transition: width 0.35s cubic-bezier(.6, 0, .4, 1),
+                background-color 0.35s ease;
+}
+
+.SearchBar-container:focus-within {
+    width: var(--search-width-expanded);
+    background-color: var(--search-bg-focus);
+}
+
+/* --- the icon button --- */
+
+.SearchBar-icon {
+    flex-shrink: 0; /* never let the icon get squashed as the input grows */
+    width: var(--search-height);
+    height: var(--search-height);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: inherit;
+    cursor: pointer;
+}
+
+.SearchBar-icon:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: -2px;
+}
+
+/* the magnifying glass, drawn with a circle + a rotated handle, no image/SVG needed */
+.SearchBar-icon-glass {
+    position: relative;
+    display: inline-block;
+    width: 14px;
+    height: 14px;
+    border: 2px solid currentColor;
+    border-radius: 50%;
+}
+
+.SearchBar-icon-glass::after {
+    content: '';
+    position: absolute;
+    width: 2px;
+    height: 8px;
+    background: currentColor;
+    right: -2px;
+    bottom: -7px;
+    transform: rotate(-45deg);
+}
+
+.SearchBar-input {
+    flex: 1 1 auto;
+    min-width: 0;
+    width: 0;
+    padding: 0;
+    border: none;
+    background: transparent;
+    color: inherit;
+    font-size: 1rem;
+    outline: none;
+    opacity: 0;
+    transition: opacity 0.2s ease, padding 0.35s ease;
+}
+
+.SearchBar-container:focus-within .SearchBar-input {
+    width: auto;
+    opacity: 1;
+    padding: 0 1rem 0 0.25rem;
+}
+
+.SearchBar-input::placeholder {
+    color: rgba(255, 255, 255, 0.6);
+}
