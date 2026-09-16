@@ -5,6 +5,12 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+
+  /* explicit background + text color so the page doesn't fall back
+     to the browser's own defaults (which can render as invisible
+     black-on-black in dark mode when nothing here says otherwise) */
+  background-color: #15101b;
+  color: #fffefe;
 }
 
 code {

@@ -1,0 +1,182 @@
+:root {
+    --nav-height: 80px;
+    --speed: 0.5s;
+}
+
+/* ---------- TOP BAR ---------- */
+
+.Header {
+    height: var(--nav-height);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 1.5rem;
+    background: #020024;
+    background: linear-gradient(90deg,rgba(2, 0, 36, 1) 0%, rgba(61, 9, 121, 1) 35%, rgba(200, 0, 255, 1) 100%);
+    transition: transform var(--speed);
+}
+
+/* when the menu opens, slide the whole header down out of the way,
+   so the menu (which sits above it, hidden) has room to drop in */
+.Header--open {
+    transform: translateY(var(--nav-height));
+}
+
+.Header-logo {
+    color: white;
+    font-size: 1.4rem;
+    font-weight: 700;
+    text-decoration: none;
+}
+
+/* ---------- HAMBURGER BUTTON ---------- */
+
+/* This "icon" is really just ONE real line (the <span>), plus two
+   more lines drawn using ::before and ::after. Three lines stacked
+   = a hamburger icon. No image file needed. */
+.Header-button {
+    position: relative;
+    height: 45px;
+    width: 45px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.Header-button span,
+.Header-button span::before,
+.Header-button span::after {
+    position: absolute;
+    width: 28px;
+    height: 3px;
+    background-color: white;
+    transition: transform 0.2s var(--speed), background-color 0.2s var(--speed);
+}
+
+/* the real line - positioned relative to the BUTTON (the button is
+   what "position: relative" belongs to) */
+.Header-button span {
+    top: 21px;
+    left: 8px;
+}
+
+/* ::before and ::after belong to the SPAN, not the button - because
+   the span itself is "position: absolute", it becomes the reference
+   point for its own pseudo-elements. So these are positioned
+   relative to the span's own corner (0,0 = span's top-left), which
+   is why "left" resets to 0 here and "top" uses small +/- numbers
+   instead of button-sized ones. */
+.Header-button span::before {
+    content: '';
+    top: -8px;
+    left: 0;
+}
+
+.Header-button span::after {
+    content: '';
+    top: 8px;
+    left: 0;
+}
+
+/* when open: hide the middle line, rotate the top/bottom lines
+   into an X shape */
+.Header--open .Header-button span {
+    background-color: transparent;
+}
+
+.Header--open .Header-button span::before {
+    transform: translateY(8px) rotate(-45deg);
+}
+
+.Header--open .Header-button span::after {
+    transform: translateY(-8px) rotate(45deg);
+}
+
+/* ---------- THE 3D MENU ---------- */
+
+.Menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: var(--nav-height);
+    visibility: hidden;
+
+    /* this "perspective" is the fake camera distance that makes
+       rotation below look like real 3D depth, instead of just a
+       flat squish */
+    perspective: 1000px;
+
+    transform: translateY(-100%); /* starts hidden, above the screen */
+    transition: transform var(--speed) 0s, visibility 0s var(--speed);
+}
+
+.Menu--open {
+    visibility: visible;
+    transform: translateY(0);
+    transition: transform var(--speed) 0s, visibility var(--speed) 0s;
+}
+
+.Menu-list {
+    display: flex;
+    height: 100%;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    background-color: #23283f;
+
+    /*
+      THE 3D TRICK, in plain terms:
+      Picture the menu hinged along its BOTTOM edge, like a flap on a
+      mailbox. Rotate it 90 degrees and it's turned edge-on to you -
+      completely invisible. Rotate it back to 0 degrees and it's flat
+      and fully visible again. That's this whole effect: closed =
+      90deg (hidden), open = 0deg (visible).
+    */
+    transform-origin: bottom center;
+    transform: rotateX(90deg);
+    transition: transform var(--speed);
+}
+
+.Menu--open .Menu-list {
+    transform: rotateX(0deg);
+}
+
+.Menu-item {
+    display: flex;
+    flex: 1;
+}
+
+.Menu-link {
+    display: flex;
+    flex: 1;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+    border-bottom: 3px solid transparent;
+    transition: background-color 0.2s, border-color 0.2s;
+}
+
+.Menu-link:hover {
+    background-color: #2e3455;
+}
+
+/* whichever link matches the page you're currently on gets a
+   colored underline and a slightly darker background */
+.Menu-link--active {
+    background-color: #1c2036;
+    border-bottom-color: #59d0c6; /* purple accent */
+}
+
+/* ---------- PAGE CONTENT ---------- */
+
+.Main {
+    transition: transform var(--speed);
+}
+
+.Main--pushed {
+    transform: translateY(var(--nav-height));
+}
