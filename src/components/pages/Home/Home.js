@@ -13,8 +13,7 @@ function Home() {
     return (
 
         <div className = 'Home'>
-            <form className = "Search-Bar">
-            </form>
+            <SearchBar />
         </div>
 
     );
