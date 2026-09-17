@@ -43,3 +43,54 @@
 .Home .SearchBar-container:focus-within {
     overflow: hidden;
 }
+
+.Home-status {
+    text-align: center;
+    margin-top: 1.5rem;
+    color: rgba(255, 255, 255, 0.6);
+    font-size: 0.95rem;
+}
+
+.Home-status--error {
+    color: #ff8080;
+}
+
+.Home-results {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 1rem;
+    max-width: 900px;
+    margin: 2rem auto 0;
+    padding: 0 1.5rem;
+}
+
+.Home-results-card {
+    background-color: #1c1c24; 
+    border-radius: 12px;
+    padding: 0.85rem 1rem;
+    color: #ffffff;
+    transition: background-color 0.25s ease, transform 0.15s ease;
+}
+
+.Home-results-card:hover {
+    background-color: #2a2a35; 
+    transform: translateY(-2px);
+}
+
+.Home-results-card p {
+    margin: 0;
+    font-size: 0.9rem;
+}
+
+.Home-results-thumb {
+    display: block; /* images are inline by default, which leaves a
+                        few px of mystery gap underneath -- block
+                        removes that */
+    width: 50px;
+    height: 50px;
+    object-fit: cover; /* crops to fill the box instead of stretching/
+                           squashing games whose art isn't this exact
+                           aspect ratio */
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
+}

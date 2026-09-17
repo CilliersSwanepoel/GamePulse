@@ -6,10 +6,7 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  /* explicit background + text color so the page doesn't fall back
-     to the browser's own defaults (which can render as invisible
-     black-on-black in dark mode when nothing here says otherwise) */
-  background-color: #2c1b53;
+  background-color: #211432;
   color: #fffefe;
 }
 
