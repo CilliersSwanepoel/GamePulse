@@ -2,6 +2,8 @@ import React, {useState, useEffect} from 'react';
 import './Home.css';
 import SearchBar from '../../common/SearchBar';
 import { searchGames } from '../../../services/rawg';
+import NewsFeed from '../../common/NewsFeed';
+import { getLatestNews } from '../../../services/news';
 
 function Home() {
 
@@ -39,6 +41,14 @@ function Home() {
         return () => clearTimeout(timeoutId);
     }, [query]);
 
+    const [news, setNews] = useState([]);
+
+    useEffect(() => {
+        getLatestNews()
+            .then(setNews)
+            .catch((err) => console.error(err));
+    }, []);
+
     return (
 
     <div className='Home'>
@@ -72,6 +82,8 @@ function Home() {
         </div>
         </>
     )}
+
+        <NewsFeed articles={news} />
     </div>
 
     );
