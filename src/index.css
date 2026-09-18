@@ -1,3 +1,10 @@
+:root {
+  --neon-cyan: #00e5ff;
+  --neon-purple: #c800ff;
+  --neon-deep: #3d0979;
+  --neon-void: #07040f;
+}
+
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -6,11 +13,145 @@ body {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 
-  background-color: #211432;
+  background-color: var(--neon-void);
   color: #fffefe;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+/* ==========================================================================
+   NEON BACKDROP
+   Rule that drives the whole thing: neon lives at the EDGES, the middle
+   stays near-black. That's what keeps cards readable instead of sitting
+   in a purple smear.
+   ========================================================================== */
+
+.bg-neon {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.bg-neon > div {
+  position: absolute;
+}
+
+/* --- 1. corner glows ----------------------------------------------------- */
+
+.bg-neon-aurora {
+  inset: -10%;
+  background:
+    radial-gradient(circle at 3% 4%,   rgba(200, 0, 255, 0.55), transparent 26%),
+    radial-gradient(circle at 98% 2%,  rgba(0, 229, 255, 0.3),  transparent 22%),
+    radial-gradient(circle at 0% 96%,  rgba(0, 229, 255, 0.34), transparent 24%),
+    radial-gradient(circle at 100% 94%, rgba(200, 0, 255, 0.5), transparent 26%),
+    /* magenta "sun" sitting on the horizon, dead centre */
+    radial-gradient(ellipse 26% 12% at 50% 68%, rgba(200, 0, 255, 0.34), transparent 70%);
+  filter: blur(55px);
+  animation: bg-neon-drift 24s ease-in-out infinite alternate;
+}
+
+/* --- 2. perspective floor ------------------------------------------------ */
+
+.bg-neon-grid {
+  top: 68%;
+  left: -25%;
+  width: 150%;
+  height: 100%;
+
+  background-image:
+    linear-gradient(to right,  rgba(0, 229, 255, 0.55) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(200, 0, 255, 0.45) 1px, transparent 1px);
+  background-size: 72px 72px;
+
+  transform-origin: 50% 0%;
+  transform: perspective(300px) rotateX(66deg);
+
+  -webkit-mask-image: linear-gradient(to bottom, transparent 0%, #000 28%);
+  mask-image: linear-gradient(to bottom, transparent 0%, #000 28%);
+
+  animation: bg-neon-grid-scroll 4s linear infinite;
+}
+
+/* --- 3. horizon line ----------------------------------------------------- */
+
+.bg-neon-horizon {
+  top: 68%;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(0, 229, 255, 0.95) 25%,
+    rgba(255, 255, 255, 0.9) 50%,
+    rgba(200, 0, 255, 0.95) 75%,
+    transparent 100%
+  );
+  /* tight glow only -- a wide one turns the whole middle to mud */
+  box-shadow: 0 0 12px 1px rgba(0, 229, 255, 0.55);
+  animation: bg-neon-horizon-pulse 6s ease-in-out infinite;
+}
+
+/* --- 4. scanlines -------------------------------------------------------- */
+
+.bg-neon-scanlines {
+  inset: 0;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 229, 255, 0.04) 0px,
+    rgba(0, 229, 255, 0.04) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+}
+
+/* --- 5. content well ----------------------------------------------------- */
+/* pools darkness where the UI actually sits, so the neon frames the page
+   instead of competing with it */
+
+.bg-neon-vignette {
+  inset: 0;
+  background: radial-gradient(
+    ellipse 62% 48% at 50% 34%,
+    rgba(7, 4, 15, 0.92) 0%,
+    rgba(7, 4, 15, 0.7) 55%,
+    transparent 100%
+  );
+  /* neon strip down each edge of the viewport -- frames the page without
+     ever touching the middle, where the cards live */
+  box-shadow:
+    inset 1px 0 22px -8px rgba(0, 229, 255, 0.75),
+    inset -1px 0 22px -8px rgba(200, 0, 255, 0.75);
+}
+
+/* --- keyframes ----------------------------------------------------------- */
+
+@keyframes bg-neon-drift {
+  0%   { transform: translate3d(0, 0, 0) scale(1); }
+  50%  { transform: translate3d(-2%, 2%, 0) scale(1.06); }
+  100% { transform: translate3d(2%, -2%, 0) scale(1); }
+}
+
+@keyframes bg-neon-grid-scroll {
+  0%   { background-position: 0 0, 0 0; }
+  100% { background-position: 0 72px, 0 72px; }
+}
+
+@keyframes bg-neon-horizon-pulse {
+  0%, 100% { opacity: 0.55; }
+  50%      { opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bg-neon-aurora,
+  .bg-neon-grid,
+  .bg-neon-horizon {
+    animation: none;
+  }
 }
