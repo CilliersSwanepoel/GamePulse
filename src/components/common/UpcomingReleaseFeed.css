@@ -1,0 +1,100 @@
+.UpcomingReleaseFeed {
+    max-width: 1000px;
+    margin: 3rem auto 0;
+    padding: 0 1.5rem 1rem;
+}
+
+.UpcomingReleaseFeed-heading {
+    color: #ffffff;
+    font-size: 1.4rem;
+    margin: 0 0 1rem;
+    border-bottom: 3px solid transparent;
+    border-image: linear-gradient(90deg, rgba(61,9,121,1) 0%, rgba(200,0,255,1) 100%) 1;
+    padding-bottom: 0.6rem;
+}
+
+.UpcomingReleaseFeed-row {
+    display: flex;
+    gap: 1.25rem;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    padding: 0.5rem 0.25rem 1rem; /* top/side padding gives the hover-lift and glow room to breathe without clipping */
+}
+
+.UpcomingReleaseFeed-card {
+    flex: 0 0 190px;
+    scroll-snap-align: start;
+    background-color: #1c1c24;
+    border-radius: 14px;
+    overflow: hidden;
+    padding-bottom: 0.75rem;
+    transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+
+.UpcomingReleaseFeed-card:hover {
+    transform: translateY(-6px) scale(1.03);
+    /* a soft glow using the NavBar's own gradient colors, so hovering
+       a card feels like it belongs to the same app, not a generic
+       drop-shadow */
+    box-shadow: 0 10px 30px rgba(61, 9, 121, 0.55),
+                0 0 0 1px rgba(200, 0, 255, 0.4);
+}
+
+.UpcomingReleaseFeed-thumb-wrap {
+    position: relative;
+    height: 110px;
+    overflow: hidden;
+}
+
+.UpcomingReleaseFeed-thumb {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.35s ease;
+}
+
+.UpcomingReleaseFeed-card:hover .UpcomingReleaseFeed-thumb {
+    transform: scale(1.1);
+}
+
+/* a slight permanent darkening at the bottom of every thumbnail, so
+   the badge and any future overlaid text stay readable regardless of
+   how bright the underlying artwork is */
+.UpcomingReleaseFeed-thumb-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom, rgba(0,0,0,0) 60%, rgba(0,0,0,0.55) 100%);
+    pointer-events: none; /* purely visual -- never intercepts clicks */
+}
+
+.UpcomingReleaseFeed-badge {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    z-index: 1;
+    padding: 0.2rem 0.55rem;
+    border-radius: 999px; /* a very large radius on a small box = a pill shape */
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #ffffff;
+    background: linear-gradient(90deg, rgba(61, 9, 121, 1) 0%, rgba(200, 0, 255, 1) 100%);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.UpcomingReleaseFeed-date {
+    display: block;
+    color: #c800ff;
+    font-size: 0.7rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+    margin: 0.6rem 0.75rem 0.2rem;
+}
+
+.UpcomingReleaseFeed-title {
+    color: #ffffff;
+    font-size: 0.85rem;
+    line-height: 1.3;
+    margin: 0 0.75rem;
+}
