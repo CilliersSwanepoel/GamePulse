@@ -52,11 +52,13 @@ function Home() {
     }, []);
 
     const [upcoming, setUpcoming] = useState([]);
+    const [upcomingLoading, setUpcomingLoading] = useState(true);
 
 useEffect(() => {
     getUpcomingGames()
         .then(setUpcoming)
-        .catch((err) => console.error(err));
+        .catch((err) => console.error(err))
+        .finally(() => setUpcomingLoading(false));
 }, []);
 
     return (
@@ -94,7 +96,7 @@ useEffect(() => {
     )}
 
         <NewsFeed articles={news} />
-        <UpcomingReleases games={upcoming} heading="Coming Soon" />
+        <UpcomingReleases games={upcoming} heading="Coming Soon" isLoading={upcomingLoading} />
     </div>
 
     );

@@ -13,12 +13,73 @@
     padding-bottom: 0.6rem;
 }
 
+/* --- featured hero card (the #1 upcoming game) --- */
+
+.UpcomingReleaseFeed-featured {
+    position: relative;
+    height: 260px;
+    border-radius: 16px;
+    overflow: hidden;
+    background-color: #1c1c24;
+    margin-bottom: 1.5rem;
+}
+
+.UpcomingReleaseFeed-featured-thumb {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.UpcomingReleaseFeed-featured-overlay {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 1.5rem;
+    background: linear-gradient(
+        to top,
+        rgba(2, 0, 36, 0.95) 0%,
+        rgba(2, 0, 36, 0.35) 60%,
+        rgba(2, 0, 36, 0) 100%
+    );
+}
+
+.UpcomingReleaseFeed-featured-title {
+    color: #ffffff;
+    font-size: 1.4rem;
+    font-weight: 700;
+    margin: 0.5rem 0 0.3rem;
+}
+
+.UpcomingReleaseFeed-featured-meta {
+    display: flex;
+    gap: 1rem;
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 0.85rem;
+}
+
+/* --- the horizontal scroll shelf for the rest --- */
+
 .UpcomingReleaseFeed-row {
     display: flex;
     gap: 1.25rem;
     overflow-x: auto;
     scroll-snap-type: x mandatory;
-    padding: 0.5rem 0.25rem 1rem; /* top/side padding gives the hover-lift and glow room to breathe without clipping */
+    padding: 0.5rem 0.25rem 1rem;
+}
+
+@keyframes UpcomingReleaseFeed-card-in {
+    from {
+        opacity: 0;
+        transform: translateY(14px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 .UpcomingReleaseFeed-card {
@@ -29,13 +90,14 @@
     overflow: hidden;
     padding-bottom: 0.75rem;
     transition: transform 0.25s ease, box-shadow 0.25s ease;
+    /* "both" keeps the card at its 0% keyframe state (invisible) during
+       the animation-delay gap, instead of flashing fully visible for a
+       moment before the delayed animation kicks in */
+    animation: UpcomingReleaseFeed-card-in 0.45s ease-out both;
 }
 
 .UpcomingReleaseFeed-card:hover {
     transform: translateY(-6px) scale(1.03);
-    /* a soft glow using the NavBar's own gradient colors, so hovering
-       a card feels like it belongs to the same app, not a generic
-       drop-shadow */
     box-shadow: 0 10px 30px rgba(61, 9, 121, 0.55),
                 0 0 0 1px rgba(200, 0, 255, 0.4);
 }
@@ -58,14 +120,11 @@
     transform: scale(1.1);
 }
 
-/* a slight permanent darkening at the bottom of every thumbnail, so
-   the badge and any future overlaid text stay readable regardless of
-   how bright the underlying artwork is */
 .UpcomingReleaseFeed-thumb-overlay {
     position: absolute;
     inset: 0;
     background: linear-gradient(to bottom, rgba(0,0,0,0) 60%, rgba(0,0,0,0.55) 100%);
-    pointer-events: none; /* purely visual -- never intercepts clicks */
+    pointer-events: none;
 }
 
 .UpcomingReleaseFeed-badge {
@@ -74,12 +133,19 @@
     left: 8px;
     z-index: 1;
     padding: 0.2rem 0.55rem;
-    border-radius: 999px; /* a very large radius on a small box = a pill shape */
+    border-radius: 999px;
     font-size: 0.7rem;
     font-weight: 700;
     color: #ffffff;
     background: linear-gradient(90deg, rgba(61, 9, 121, 1) 0%, rgba(200, 0, 255, 1) 100%);
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.4);
+}
+
+.UpcomingReleaseFeed-badge--large {
+    position: static; /* the featured card places it via normal flow, not absolute positioning */
+    display: inline-block;
+    font-size: 0.8rem;
+    padding: 0.3rem 0.75rem;
 }
 
 .UpcomingReleaseFeed-date {
@@ -97,4 +163,25 @@
     font-size: 0.85rem;
     line-height: 1.3;
     margin: 0 0.75rem;
+}
+
+/* --- skeleton loading shimmer --- */
+
+@keyframes UpcomingReleaseFeed-shimmer {
+    from { background-position: -200px 0; }
+    to   { background-position: 200px 0; }
+}
+
+.UpcomingReleaseFeed-skeleton-card {
+    flex: 0 0 190px;
+    height: 178px; /* matches a real card's roughly total height (thumb + text) */
+    border-radius: 14px;
+    background: linear-gradient(
+        100deg,
+        #1c1c24 30%,
+        #2a2a35 50%,
+        #1c1c24 70%
+    );
+    background-size: 400px 100%;
+    animation: UpcomingReleaseFeed-shimmer 1.4s ease-in-out infinite;
 }
