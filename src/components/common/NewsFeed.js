@@ -40,7 +40,7 @@ function NewsFeed({ articles }) {
             </a>
 
             <div className="NewsFeed-grid">
-                {rest.map((article) => (
+                {rest.slice(0, 8).map((article) => (
                     <a
                         className="NewsFeed-card"
                         key={article.guid}

@@ -1,9 +1,11 @@
 import React, {useState, useEffect} from 'react';
 import './Home.css';
 import SearchBar from '../../common/SearchBar';
-import { searchGames } from '../../../services/rawg';
+import { searchGames } from '../../../services/rawg/rawg';
 import NewsFeed from '../../common/NewsFeed';
 import { getLatestNews } from '../../../services/news';
+import UpcomingReleases from '../../common/UpcomingReleaseFeed';
+import { getUpcomingGames } from '../../../services/rawg/releases';
 
 function Home() {
 
@@ -49,6 +51,16 @@ function Home() {
             .catch((err) => console.error(err));
     }, []);
 
+    const [upcoming, setUpcoming] = useState([]);
+    const [upcomingLoading, setUpcomingLoading] = useState(true);
+
+useEffect(() => {
+    getUpcomingGames()
+        .then(setUpcoming)
+        .catch((err) => console.error(err))
+        .finally(() => setUpcomingLoading(false));
+}, []);
+
     return (
 
     <div className='Home'>
@@ -84,6 +96,7 @@ function Home() {
     )}
 
         <NewsFeed articles={news} />
+        <UpcomingReleases games={upcoming} heading="Coming Soon" isLoading={upcomingLoading} />
     </div>
 
     );
